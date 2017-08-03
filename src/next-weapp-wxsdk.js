@@ -6,10 +6,10 @@
   var NxWeappWxsdk = nx.declare('nx.weapp.Wxsdk', {
     methods:{
       init:function(){
-        if(!wx){
+        if(!global.wx){
           return nx.error('Can not found `wx` in this env')
         }
-        this.wx = wx;
+        this.wx = global.wx;
       },
       chooseImage: function(inOptions){
         var self = this;
