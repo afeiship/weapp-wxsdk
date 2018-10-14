@@ -1,6 +1,6 @@
 (function () {
 
-  var global = global || window || self || this;
+  var global = global || this || window || Function("return this")();
   var nx = global.nx || require('next-js-core2');
 
   var NxWeappWxsdk = nx.declare('nx.weapp.Wxsdk', {
