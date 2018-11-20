@@ -1,6 +1,16 @@
 (function() {
   var global = global || this || window || Function('return this')();
   var nx = global.nx || require('next-js-core2');
+  var PROMISFY = function(resolve, reject) {
+    return {
+      success: function(resp) {
+        resolve(resp);
+      },
+      fail: function(error) {
+        reject(error);
+      }
+    };
+  };
 
   var NxWeappWxsdk = nx.declare('nx.weapp.Wxsdk', {
     methods: {
@@ -11,30 +21,19 @@
         this.wx = global.wx;
       },
       chooseImage: function(inOptions) {
-        var self = this;
         return new Promise(function(resolve, reject) {
-          self.wx.chooseImage(
+          global.wx.chooseImage(
             nx.mix(
               {
                 count: 9,
                 sizeType: ['original', 'compressed'],
                 sourceType: ['album', 'camera']
               },
-              self.__toPromise(resolve, reject),
+              PROMISFY(resolve, reject),
               inOptions
             )
           );
         });
-      },
-      __toPromise: function(resolve, reject) {
-        return {
-          success: function(resp) {
-            resolve(resp);
-          },
-          fail: function(error) {
-            reject(error);
-          }
-        };
       }
     }
   });
