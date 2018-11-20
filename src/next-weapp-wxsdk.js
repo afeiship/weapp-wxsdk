@@ -1,6 +1,8 @@
 (function() {
   var global = global || this || window || Function('return this')();
   var nx = global.nx || require('next-js-core2');
+
+  //constant
   var PROMISFY = function(resolve, reject) {
     return {
       success: function(resp) {
