@@ -1,29 +1,20 @@
-(function() {
+(function () {
+
   var global = global || this || window || Function('return this')();
   var nx = global.nx || require('next-js-core2');
-
-  //constant
-  var PROMISFY = function(resolve, reject) {
-    return {
-      success: function(resp) {
-        resolve(resp);
-      },
-      fail: function(error) {
-        reject(error);
-      }
-    };
-  };
+  var nxWxpromisify = nx.wxPromisify || require('next-wx-promisify');
 
   var NxWeappWxsdk = nx.declare('nx.weapp.Wxsdk', {
     methods: {
-      init: function() {
+      init: function () {
         if (!global.wx) {
           return nx.error('Can not found `wx` in this env');
         }
         this.wx = global.wx;
+        global.__WEIXIN_READY___ = true;
       },
-      chooseImage: function(inOptions) {
-        return new Promise(function(resolve, reject) {
+      chooseImage: function (inOptions) {
+        return new Promise(function (resolve, reject) {
           global.wx.chooseImage(
             nx.mix(
               {
@@ -31,7 +22,7 @@
                 sizeType: ['original', 'compressed'],
                 sourceType: ['album', 'camera']
               },
-              PROMISFY(resolve, reject),
+              nxWxpromisify(resolve, reject),
               inOptions
             )
           );
